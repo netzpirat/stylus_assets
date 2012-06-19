@@ -99,18 +99,15 @@ By default, `name_filter` strips the leading `templates/`, `stylesheets/` and `s
 When you have a template named `header` with the given content:
 
 ```SCSS
-.header (@r) {
-    padding: @r * 2;
-    border-radius: @r;
-}
+header(r)
+  padding: r * 2
+  border-radius: r
 
-.header (@r) when (@r > 10) {
-    margin-top: 3 * @r;
-}
+  if r > 10
+    margin-top: 3 * @r
 
-#header {
-    .header(@radius);
-}
+#header
+  header(radius)
 ```
 
 You can render the style template and pass the variables to be used:
@@ -152,13 +149,12 @@ may want to have them added to provide default variables.
 Given the following style template named `box`
 
 ```SCSS
-@box-margin: 10px;
-@box-padding: 10px;
+box-margin = 10px
+box-padding = 10px
 
-.box {
-  margin: @box-margin;
-  padding: @box-padding;
-}
+.box
+  margin: @box-margin
+  padding: @box-padding
 ```
 
 Rendered with only some of the variables passed to the template
@@ -184,7 +180,7 @@ Given the following Stylus style template named `divider`:
 
 ```CSS
 div {
-  margin-top: @m;
+  margin-top: m;
 }
 ```
 
