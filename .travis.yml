@@ -1,0 +1,14 @@
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+  - ree
+  - jruby
+branches:
+  only:
+    - master
+script: 'rake spec'
+after_script: 'bundle exec guard-jasmine'
+notifications:
+  recipients:
+    - michi@netzpiraten.ch
