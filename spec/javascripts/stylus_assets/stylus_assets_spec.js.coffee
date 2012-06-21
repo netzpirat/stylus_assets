@@ -65,13 +65,13 @@ describe 'StylusAssets', ->
             }
           ''', { }, document
 
-        afterEach -> $('#less_asset_template_head').remove()
+        afterEach -> $('#stylus-asset-template-head').remove()
 
         it 'creates a script tag', ->
-          expect($(document)).toContain 'style#stylus_asset_template_head'
+          expect($(document)).toContain 'style#stylus-asset-template-head'
 
         it 'adds the css to the tag', ->
-          expect($('#stylus_asset_template_head').text()).toEqual '''
+          expect($('#stylus-asset-template-head').text()).toEqual '''
             #logo {
               border-radius: 5px;
             }
@@ -80,17 +80,17 @@ describe 'StylusAssets', ->
 
       describe 'for an existing style', ->
         beforeEach ->
-          $(document).find('head').append '<style id="stylus_asset_template_head">div { padding: 1px; }</style>'
+          $(document).find('head').append '<style id="stylus-asset-template-head">div { padding: 1px; }</style>'
           StylusAssets.render 'template/head', '''
             div {
               padding: 5px;
             }
           ''', { }, document
 
-        afterEach -> $('#stylus_asset_template_head').remove()
+        afterEach -> $('#stylus-asset-template-head').remove()
 
         it 'replaces the css in the tag', ->
-          expect($('#stylus_asset_template_head').text()).toEqual '''
+          expect($('#stylus-asset-template-head').text()).toEqual '''
             div {
               padding: 5px;
             }

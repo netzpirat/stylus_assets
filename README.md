@@ -193,7 +193,7 @@ JSST['divider']({ m: '20px' }, document)
 will create a new style tag in the head of the document:
 
 ```HTML
-<style id="stylus_asset_divider">
+<style id="stylus-asset-divider">
   div {
     margin-top: 20px;
   }

@@ -39,7 +39,7 @@ class window.StylusAssets
     # Add a style tag with the css when a document is given
     #
     if doc instanceof HTMLDocument || Object.prototype.toString.call(doc) is '[object HTMLDocument]'
-      id = "stylus_asset_#{ name.replace(/[^A-Za-z0-1_/-]/, '').replace(/[/-]/, '_') }"
+      id = "stylus-asset-#{ name.replace(/[^A-Za-z0-1_/-]/, '').replace(/[/_]/, '-') }"
 
       style = doc.getElementById(id) || doc.createElement 'style'
       style.type = 'text/css'
