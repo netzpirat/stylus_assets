@@ -16,6 +16,9 @@ module StylusAssets
 
       # The JavaScript Style template namespace
       attr_accessor :namespace
+
+      # The variable prefix
+      attr_accessor :variable_prefix
     end
 
     # By default the namespace is JSST (JavaScript Style template)
@@ -27,6 +30,9 @@ module StylusAssets
     # The default mime type of the tilt template
     self.default_mime_type = 'application/javascript'
 
+    # If the variable should be prefixed with a $ sign
+    self.variable_prefix = false
+    
     # Test if the compiler is initialized.
     #
     # @return [Boolean] the initialization status

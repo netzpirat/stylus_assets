@@ -1,4 +1,7 @@
 describe 'StylusAssets', ->
+  beforeEach ->
+    StylusAssets.prefixVariables = false
+    
   describe '#render', ->
     describe 'a less stylesheet', ->
       beforeEach ->
@@ -55,6 +58,47 @@ describe 'StylusAssets', ->
             }
 
           '''
+
+      describe 'when prefixing the variables', ->
+        beforeEach ->
+          StylusAssets.prefixVariables = true
+          
+        describe 'for variables that does not exist', ->
+          beforeEach ->
+            @result = StylusAssets.render 'template', '''
+              #logo {
+                border-radius: $radius;
+              }
+            ''', { radius: '10px' }
+  
+          it 'adds the variable', ->
+            expect(@result).toEqual '''
+              #logo {
+                border-radius: 10px;
+              }
+
+            '''
+
+        describe 'for variables that does exist', ->
+          beforeEach ->
+            @result = StylusAssets.render 'template', '''
+              $box-margin = 10px
+              $box-padding = 10px
+
+              .box {
+                margin: $box-margin;
+                padding: $box-padding;
+              }
+            ''', { 'box-margin': '20px' }
+  
+          it 'replaces the existing variable', ->
+            expect(@result).toEqual '''
+              .box {
+                margin: 20px;
+                padding: 10px;
+              }
+
+            '''
 
     describe 'when passing an HTML element', ->
       describe 'for a non existing style', ->

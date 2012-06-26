@@ -3,6 +3,7 @@ require 'rails/all'
 require 'jasminerice'
 require 'sprockets/railtie'
 require 'jquery-rails'
+require 'stylus_assets/stylus_template'
 
 class StylusAssetsJasmineTest < Rails::Application
   routes.append do

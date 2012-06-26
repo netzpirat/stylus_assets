@@ -94,6 +94,16 @@ StylusAssets::StylusTemplate.name_filter = lambda { |n| n.sub /^(templates|style
 
 By default, `name_filter` strips the leading `templates/`, `stylesheets/` and `styles/` directory off of the name.
 
+#### Variable prefix
+
+By default, Stylus assets doesn't prefix the style variables with a `$`, but you can configure it to do so:
+
+```ruby
+StylusAssets::StylusTemplate.variable_prefix = true
+```
+
+All following examples are prefix free.
+ 
 ## Render
 
 When you have a template named `header` with the given content:

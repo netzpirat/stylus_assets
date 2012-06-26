@@ -2,6 +2,8 @@
 #
 class window.StylusAssets
 
+  @prefixVariables = <%= StylusAssets::StylusTemplate.variable_prefix %>
+  
   # Render stylus css with its variables to plain css
   #
   # @param [String] css the stylus css
@@ -12,21 +14,22 @@ class window.StylusAssets
   @render: (name, css, variables = {}, doc = undefined) ->
     result = undefined
     newVariables = {}
-
+    prefix = if StylusAssets.prefixVariables then '$' else ''
+        
     # Replace existing less variables
     #
     for variable, value of variables
-      existing = ///#{ variable }\s*=\s*[^;\n]+;?///
+      existing = ///\$?#{ variable }\s*=.*///
 
       if existing.test css
-        css = css.replace existing, "#{ variable } = #{ value }"
+        css = css.replace existing, "#{ prefix }#{ variable } = #{ value }"
       else
         newVariables[variable] = value
 
     # Add bew Stylus variables
     #
     style = ''
-    style += "#{ variable } = #{ value }\n" for variable, value of newVariables
+    style += "#{ prefix }#{ variable } = #{ value }\n" for variable, value of newVariables
     style += css
 
     # Compile the Stylus stylesheet
