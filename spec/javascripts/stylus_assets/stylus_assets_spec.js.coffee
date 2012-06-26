@@ -59,6 +59,28 @@ describe 'StylusAssets', ->
 
           '''
 
+      describe 'for an Array value', ->
+        beforeEach ->
+          @result = StylusAssets.render 'template', '''
+            for c in cols
+              .{c}
+                border: 0
+          ''', { 'cols': [1, 2, 3] }
+
+        it 'replaces the existing variable', ->
+          expect(@result).toEqual '''
+            .1 {
+              border: 0;
+            }
+            .2 {
+              border: 0;
+            }
+            .3 {
+              border: 0;
+            }
+
+          '''
+        
       describe 'when prefixing the variables', ->
         beforeEach ->
           StylusAssets.prefixVariables = true
@@ -96,6 +118,28 @@ describe 'StylusAssets', ->
               .box {
                 margin: 20px;
                 padding: 10px;
+              }
+
+            '''
+
+        describe 'for an Array value', ->
+          beforeEach ->
+            @result = StylusAssets.render 'template', '''
+              for c in $cols
+                .{c}
+                  border: 0
+            ''', { 'cols': [1, 2, 3] }
+  
+          it 'replaces the existing variable', ->
+            expect(@result).toEqual '''
+              .1 {
+                border: 0;
+              }
+              .2 {
+                border: 0;
+              }
+              .3 {
+                border: 0;
               }
 
             '''

@@ -2,8 +2,12 @@
 #
 class window.StylusAssets
 
+  # Whether to prefix variables with a $ on not
   @prefixVariables = <%= StylusAssets::StylusTemplate.variable_prefix %>
   
+  # Test if object is an array
+  @isArray = Array.isArray or (obj) -> !!(obj and obj.concat and obj.unshift and not obj.callee)
+      
   # Render stylus css with its variables to plain css
   #
   # @param [String] css the stylus css
@@ -20,6 +24,11 @@ class window.StylusAssets
     #
     for variable, value of variables
       existing = ///\$?#{ variable }\s*=.*///
+
+      if StylusAssets.isArray(value)
+        list = ''
+        list += "'#{ v }' " for v in value
+        value = list.substring(0, list.length - 1)
 
       if existing.test css
         css = css.replace existing, "#{ prefix }#{ variable } = #{ value }"
