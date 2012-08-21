@@ -26,6 +26,7 @@ group :development, :test do
   gem 'guard-jasmine'
   gem 'rb-fsevent'
   gem 'terminal-notifier-guard'
+  gem 'coolline'
 
   gem 'yard'
   gem 'redcarpet'
