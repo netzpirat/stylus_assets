@@ -1,7 +1,7 @@
 describe 'StylusAssets', ->
   beforeEach ->
     StylusAssets.prefixVariables = false
-    
+
   describe '#render', ->
     describe 'a less stylesheet', ->
       beforeEach ->
@@ -65,9 +65,9 @@ describe 'StylusAssets', ->
             for c in cols
               .{c}
                 border: 0
-          ''', { 'cols': [1, 2, 3] }
+          ''', { cols: [1, 2, 3] }
 
-        it 'replaces the existing variable', ->
+        it 'converts the variable to a list', ->
           expect(@result).toEqual '''
             .1 {
               border: 0;
@@ -80,11 +80,41 @@ describe 'StylusAssets', ->
             }
 
           '''
-        
+
+      describe 'for an Object value', ->
+        beforeEach ->
+          @result = StylusAssets.render 'template', '''
+                      .{get(obj, 'prop1')}
+                        border: 0px
+                      .{get(obj, 'prop2')}
+                        border: 1px
+
+                      for p in obj
+                        .{p[0]}
+                          margin-left: 5px
+                        ''', { obj: { prop1: 'test1', prop2: 'test2' } }
+
+        it 'converts the variable to a set', ->
+          expect(@result).toEqual '''
+            .test1 {
+              border: 0px;
+            }
+            .test2 {
+              border: 1px;
+            }
+            .prop1 {
+              margin-left: 5px;
+            }
+            .prop2 {
+              margin-left: 5px;
+            }
+
+                    '''
+
       describe 'when prefixing the variables', ->
         beforeEach ->
           StylusAssets.prefixVariables = true
-          
+
         describe 'for variables that does not exist', ->
           beforeEach ->
             @result = StylusAssets.render 'template', '''
@@ -92,7 +122,7 @@ describe 'StylusAssets', ->
                 border-radius: $radius;
               }
             ''', { radius: '10px' }
-  
+
           it 'adds the variable', ->
             expect(@result).toEqual '''
               #logo {
@@ -112,7 +142,7 @@ describe 'StylusAssets', ->
                 padding: $box-padding;
               }
             ''', { 'box-margin': '20px' }
-  
+
           it 'replaces the existing variable', ->
             expect(@result).toEqual '''
               .box {
@@ -129,7 +159,7 @@ describe 'StylusAssets', ->
                 .{c}
                   border: 0
             ''', { 'cols': [1, 2, 3] }
-  
+
           it 'replaces the existing variable', ->
             expect(@result).toEqual '''
               .1 {
@@ -182,5 +212,5 @@ describe 'StylusAssets', ->
             div {
               padding: 5px;
             }
-            
+
           '''

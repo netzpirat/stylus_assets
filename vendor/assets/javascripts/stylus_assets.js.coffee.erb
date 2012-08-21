@@ -4,10 +4,13 @@ class window.StylusAssets
 
   # Whether to prefix variables with a $ on not
   @prefixVariables = <%= StylusAssets::StylusTemplate.variable_prefix %>
-  
+
   # Test if object is an array
   @isArray = Array.isArray or (obj) -> !!(obj and obj.concat and obj.unshift and not obj.callee)
-      
+
+  # Test if object is an object
+  @isObject = (obj) -> obj is Object(obj)
+
   # Render stylus css with its variables to plain css
   #
   # @param [String] css the stylus css
@@ -18,8 +21,9 @@ class window.StylusAssets
   @render: (name, css, variables = {}, doc = undefined) ->
     result = undefined
     newVariables = {}
+    hasSet = false
     prefix = if StylusAssets.prefixVariables then '$' else ''
-        
+
     # Replace existing less variables
     #
     for variable, value of variables
@@ -28,18 +32,35 @@ class window.StylusAssets
       if StylusAssets.isArray(value)
         list = ''
         list += "'#{ v }' " for v in value
+
         value = list.substring(0, list.length - 1)
+
+      if StylusAssets.isObject(value)
+        hasSet = true
+
+        set = ''
+        set += "('#{ k }' '#{ v }') " for k, v of value
+
+        value = set.substring(0, set.length - 1)
 
       if existing.test css
         css = css.replace existing, "#{ prefix }#{ variable } = #{ value }"
       else
         newVariables[variable] = value
 
-    # Add bew Stylus variables
+    # Add new Stylus variables
     #
     style = ''
     style += "#{ prefix }#{ variable } = #{ value }\n" for variable, value of newVariables
+
+    if hasSet
+      style += """
+get(hash, key)\n
+  return pair[1] if pair[0] == key for pair in hash\n
+"""
     style += css
+
+    console.log "Generated style %s", style
 
     # Compile the Stylus stylesheet
     #
@@ -76,7 +97,7 @@ class window.StylusAssets
 # Stylus imports
 #
 class StylusAssets.Imports
-  
+
   @functions = '''
 vendors = moz webkit o ms official
 
@@ -88,7 +109,7 @@ vendors = moz webkit o ms official
 // require a color
 
 require-color(color)
-  unless color is a 'color' 
+  unless color is a 'color'
     error('RGB or HSL value expected, got a ' + -string(color))
 
 // require a unit
@@ -105,7 +126,7 @@ require-string(str)
 
 // apply js Math function
 
-math(n, fn) 
+math(n, fn)
   require-unit(n)
   require-string(fn)
   -math(n, fn)
@@ -208,7 +229,7 @@ lighten(color, amount)
 
 fade-out(color, amount)
   color - rgba(black, percent-to-decimal(amount))
-  
+
 // increase opacity by amount
 
 fade-in(color, amount)
@@ -296,7 +317,7 @@ join(delim, vals...)
 // add a css rule to the containing block
 
 // - This definition allows add-property to be used as a mixin
-// - It has the same effect as interpolation but allows users 
+// - It has the same effect as interpolation but allows users
 //   to opt for a functional style
 
 add-property-function = add-property
