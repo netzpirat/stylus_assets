@@ -1,5 +1,14 @@
 # Changelog
 
+## Master
+
+- Create a Stylus set from a JavaScript object
+
+## 0.3.0 - June 26, 2012
+
+- Add option to prefix variables with $
+- Create a Stylus list from a JavaScript array
+
 ## 0.2.0 - June 21, 2012
 
 - Change style id separator form underscore to dash.
