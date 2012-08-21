@@ -25,7 +25,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem 'rb-fsevent'
-  gem 'ruby_gntp'
+  gem 'terminal-notifier-guard'
 
   gem 'yard'
   gem 'redcarpet'

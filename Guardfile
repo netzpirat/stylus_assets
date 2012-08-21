@@ -1,4 +1,5 @@
 # coding: UTF-8
+notification :terminal_notifier
 
 guard :jasmine, :server => :thin do
   watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$})         { "spec/javascripts" }
