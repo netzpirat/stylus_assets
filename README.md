@@ -9,7 +9,7 @@ have a look at [Ruby Stylus](https://github.com/lucasmazza/ruby-stylus).
 Tested on MRI Ruby 1.8.7, 1.9.2, 1.9.3, REE and the latest version of JRuby.
 
 ## Why a Style template?
- 
+
 Why would you like to have JavaScript Style Templates? If you have a lot of domain models that describes a UI, you can
 convert them dynamically to CSS and have nice style logic in the template instead of code that manipulates the DOM
 style attributes.
@@ -103,7 +103,7 @@ StylusAssets::StylusTemplate.variable_prefix = true
 ```
 
 All following examples are prefix free.
- 
+
 ## Render
 
 When you have a template named `header` with the given content:
@@ -148,6 +148,85 @@ will result in
   padding: 40px;
   border-radius: 20px;
   margin-top: 60px;
+}
+```
+
+### Lists
+
+If you pass an array as variable value, it'll converted into a list:
+
+```CSS
+for c in cols
+  .{c}
+    border: 0px
+```
+
+that is rendered with
+
+```javascript
+JSST['header']({ cols: [1, 2, 3] })
+```
+
+will generate
+
+```CSS
+.1 {
+  border: 0;
+}
+.2 {
+  border: 0;
+}
+.3 {
+  border: 0;
+}
+```
+
+### Sets
+
+If you pass an object as variable value, it'll converted into a set:
+
+```CSS
+for p in obj
+  .{p[0]}
+    margin-left: 5px
+```
+
+that is rendered with
+
+```javascript
+JSST['header']({ obj: { prop1: 'test1', prop2: 'test2' } })
+```
+
+will generate
+
+```CSS
+.prop1 {
+  margin-left: 5px;
+}
+.prop2 {
+  margin-left: 5px;
+}
+```
+
+Whenever a set is detected, a helper funtion `get` is added:
+
+```Stylus
+get(hash, key)
+  return pair[1] if pair[0] == key for pair in hash
+```
+
+which allows you the access a value by its name:
+
+```CSS
+.{get(obj, 'prop1')}
+  border: 0px
+```
+
+will generate
+
+```CSS
+.test1 {
+  border: 0px;
 }
 ```
 
