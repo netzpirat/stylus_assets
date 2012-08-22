@@ -1,6 +1,10 @@
 # Changelog
 
-## Master
+## 0.5.0 - August 22, 2012
+
+- Allow multiple instances of a style.
+
+## 0.4.0 - August 22, 2012
 
 - Create a Stylus set from a JavaScript object
 
