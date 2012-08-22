@@ -16,9 +16,10 @@ class window.StylusAssets
   # @param [String] css the stylus css
   # @param [Object] variables the stylus variables
   # @param [HTMLDocument] element a target element to add the styles
+  # @param [String] id the optional id of the style
   # @return [String] the css styles
   #
-  @render: (name, css, variables = {}, doc = undefined) ->
+  @render: (name, css, variables = {}, doc = undefined, id = undefined) ->
     result = undefined
     newVariables = {}
     hasSet = false
@@ -70,7 +71,7 @@ get(hash, key)
     # Add a style tag with the css when a document is given
     #
     if doc instanceof HTMLDocument || Object.prototype.toString.call(doc) is '[object HTMLDocument]'
-      id = "stylus-asset-#{ name.replace(/[^A-Za-z0-1_/-]/, '').replace(/[/_]/, '-') }"
+      id = "stylus-asset-#{ name.replace(/[^A-Za-z0-1_/-]/, '').replace(/[/_]/, '-') }#{ if id then "-#{ id }" else '' }"
 
       style = doc.getElementById(id) || doc.createElement 'style'
       style.type = 'text/css'

@@ -26,7 +26,7 @@ describe StylusAssets::StylusTemplate do
         template.render(scope).should eql <<-TEMPLATE
 (function() {
   window.JSST || (window.JSST = {});
-  window.JSST['template'] = function(v, e) { return StylusAssets.render('template', \"  h1 { margin: 10px; }\\n  h2 { margin: 20px; }\\n\", v, e); };\n}).call(this);
+  window.JSST['template'] = function(v, e, i) { return StylusAssets.render('template', \"  h1 { margin: 10px; }\\n  h2 { margin: 20px; }\\n\", v, e, i); };\n}).call(this);
         TEMPLATE
       end
     end
@@ -40,7 +40,7 @@ describe StylusAssets::StylusTemplate do
         template.render(scope).should eql <<-TEMPLATE
 (function() {
   window.STYLES || (window.STYLES = {});
-  window.STYLES['template'] = function(v, e) { return StylusAssets.render('template', \"  h1 { margin: 10px; }\\n  h2 { margin: 20px; }\\n\", v, e); };\n}).call(this);
+  window.STYLES['template'] = function(v, e, i) { return StylusAssets.render('template', \"  h1 { margin: 10px; }\\n  h2 { margin: 20px; }\\n\", v, e, i); };\n}).call(this);
         TEMPLATE
       end
     end
@@ -54,7 +54,7 @@ describe StylusAssets::StylusTemplate do
         template.render(scope).should eql <<-TEMPLATE
 (function() {
   window.JSST || (window.JSST = {});
-  window.JSST['styles/template'] = function(v, e) { return StylusAssets.render('styles/template', \"  h1 { margin: 10px; }\\n  h2 { margin: 20px; }\\n\", v, e); };\n}).call(this);
+  window.JSST['styles/template'] = function(v, e, i) { return StylusAssets.render('styles/template', \"  h1 { margin: 10px; }\\n  h2 { margin: 20px; }\\n\", v, e, i); };\n}).call(this);
         TEMPLATE
       end
     end

@@ -175,42 +175,89 @@ describe 'StylusAssets', ->
             '''
 
     describe 'when passing an HTML element', ->
-      describe 'for a non existing style', ->
-        beforeEach ->
-          StylusAssets.render 'template/head', '''
-            #logo {
-              border-radius: 5px;
-            }
-          ''', { }, document
+      describe 'without an id', ->
+        describe 'for a non existing style', ->
+          beforeEach ->
+            StylusAssets.render 'template/head', '''
+              #logo {
+                border-radius: 5px;
+              }
+            ''', { }, document
+  
+          afterEach -> $('#stylus-asset-template-head').remove()
+  
+          it 'creates a script tag', ->
+            expect($(document)).toContain 'style#stylus-asset-template-head'
+  
+          it 'adds the css to the tag', ->
+            expect($('#stylus-asset-template-head').text()).toEqual
+            '''
+              #logo {
+                border-radius: 5px;
+              }
+            
+            '''
+  
+        describe 'for an existing style', ->
+          beforeEach ->
+            $(document).find('head').append '<style id="stylus-asset-template-head">div { padding: 1px; }</style>'
+            StylusAssets.render 'template/head',
+            '''
+              div {
+                padding: 5px;
+              }
+            ''', { }, document
+  
+          afterEach -> $('#stylus-asset-template-head').remove()
+  
+          it 'replaces the css in the tag', ->
+            expect($('#stylus-asset-template-head').text()).toEqual
+            '''
+              div {
+                padding: 5px;
+              }
+          
+            '''
+            
+      describe 'with an id', ->
+        describe 'for a non existing style', ->
+          beforeEach ->
+            StylusAssets.render 'template/head', '''
+              #logo {
+                border-radius: 5px;
+              }
+            ''', { }, document, 12
 
-        afterEach -> $('#stylus-asset-template-head').remove()
+          afterEach -> $('#stylus-asset-template-head-12').remove()
 
-        it 'creates a script tag', ->
-          expect($(document)).toContain 'style#stylus-asset-template-head'
+          it 'creates a script tag', ->
+            expect($(document)).toContain 'style#stylus-asset-template-head-12'
 
-        it 'adds the css to the tag', ->
-          expect($('#stylus-asset-template-head').text()).toEqual '''
-            #logo {
-              border-radius: 5px;
-            }
+          it 'adds the css to the tag', ->
+            expect($('#stylus-asset-template-head-12').text()).toEqual
+            '''
+              #logo {
+                border-radius: 5px;
+              }
+            
+            '''
 
-          '''
+        describe 'for an existing style', ->
+          beforeEach ->
+            $(document).find('head').append '<style id="stylus-asset-template-head-23">div { padding: 1px; }</style>'
+            StylusAssets.render 'template/head', '''
+              div {
+                padding: 5px;
+              }
+            ''', { }, document, 23
 
-      describe 'for an existing style', ->
-        beforeEach ->
-          $(document).find('head').append '<style id="stylus-asset-template-head">div { padding: 1px; }</style>'
-          StylusAssets.render 'template/head', '''
-            div {
-              padding: 5px;
-            }
-          ''', { }, document
+          afterEach -> $('#stylus-asset-template-head-23').remove()
 
-        afterEach -> $('#stylus-asset-template-head').remove()
-
-        it 'replaces the css in the tag', ->
-          expect($('#stylus-asset-template-head').text()).toEqual '''
-            div {
-              padding: 5px;
-            }
-
-          '''
+          it 'replaces the css in the tag', ->
+            expect($('#stylus-asset-template-head-23').text()).toEqual
+            '''
+              div {
+                padding: 5px;
+              }
+          
+            '''

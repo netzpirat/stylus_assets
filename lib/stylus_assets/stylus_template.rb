@@ -63,7 +63,7 @@ module StylusAssets
       <<-JST
 (function() {
   #{ self.class.namespace } || (#{ self.class.namespace } = {});
-  #{ self.class.namespace }['#{ name }'] = function(v, e) { return StylusAssets.render('#{ name }', \"#{ data.gsub(/\n/, "\\n") }\", v, e); };
+  #{ self.class.namespace }['#{ name }'] = function(v, e, i) { return StylusAssets.render('#{ name }', \"#{ data.gsub(/\n/, "\\n") }\", v, e, i); };
 }).call(this);
       JST
     end
